@@ -1,0 +1,1 @@
+UTF2ISO is a little tool to convert Eressea cr reports from utf8 to iso-8859-1.

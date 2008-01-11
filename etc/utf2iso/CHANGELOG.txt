@@ -1,0 +1,8 @@
+2008-01-11  stm (stm_@users.sourceforge.net)
+    * made version ready to be commited to magellan-client SVN
+  
+2007-02-11  stm (stm_@users.sourceforge.net)
+    * now also iso 2 utf ;)
+    
+2007-02-11  stm (stm_@users.sourceforge.net)
+    * original version
