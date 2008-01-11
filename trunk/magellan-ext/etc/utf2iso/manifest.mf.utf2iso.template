@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Classpath: .
+Main-Class: magellan.ext.utf2iso.UTF2ISO
+
