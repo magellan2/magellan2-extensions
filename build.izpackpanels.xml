@@ -1,0 +1,122 @@
+<project name="izpackpanels creator" default="distribute">
+    <description>
+    This is the ANT compile script for izpack panels. This is an extension
+    of the izpack installer for magellan plugins.
+    
+    Please call one of the following public targets:
+      - distribute
+  </description>
+
+    <property name="VERSION.MAJOR" value="1" />
+    <property name="VERSION.MINOR" value="0" />
+    <property name="VERSION.SUB" value="0" />
+
+    <property name="VERSION" value="${VERSION.MAJOR}_${VERSION.MINOR}_${VERSION.SUB}" />
+    <property name="VERSION.POINTED" value="${VERSION.MAJOR}.${VERSION.MINOR}.${VERSION.SUB}" />
+
+    <!-- Some properties -->
+    <property name="sources"      location="${basedir}/src" />
+    <property name="classes"      location="${basedir}/classes" />
+    <property name="bin"          location="${basedir}/classes" />
+    <property name="release"      location="${basedir}/release" />
+    <property name="magellan2"    location="${basedir}/../Magellan2/"/>
+    <property name="installer"    location="${magellan2}/installer"/>
+
+    <!-- Compile Settings -->
+    <property name="debug" value="on" />
+    <property name="optimize" value="off" />
+    <property name="build.compiler" value="javac1.5" />
+    <property name="compile.target" value="1.5" />
+    <property name="compile.encoding" value="ISO-8859-1" />
+
+    <path id="magellan.class.path">
+      <pathelement path="${java.class.path}/" />
+      <fileset dir="${magellan2}/installer/izpack"><include name="**/*.jar" /></fileset>
+    </path>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- *  This target compiles and packs the utf2iso tool.           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <target name="build">
+        <echo message="Compiling..." />
+
+        <antcall target="clear-classes" />
+        <mkdir dir="${classes}" />
+
+        <javac srcdir="${sources}/com" 
+               destdir="${classes}" 
+               includes="**" 
+               source="${compile.target}" 
+               target="${compile.target}" 
+               encoding="${compile.encoding}" 
+               optimize="${optimize}" 
+               fork="true" 
+               memoryInitialSize="128m" 
+               memoryMaximumSize="256m" 
+               debug="${debug}">
+            <!--<compilerarg value="-Xlint:unchecked"/>-->
+            <!--<compilerarg value="-Xlint:deprecation"/>-->
+            <classpath refid="magellan.class.path" />
+        </javac>
+    </target>
+    
+    <target name="distribute" depends="build" description="Call me...">
+        <echo message="Building Magellan IzPack Panels" />
+
+        <!-- delete old library -->
+        <antcall target="clear-release" />
+
+        <!-- JAR File erzeugen -->
+        <jar jarfile="${release}/MagellanPluginTargetPanel.jar">
+          <fileset dir="${classes}">
+            <include name="**/MagellanPluginTargetPanel.class"/>
+            <include name="**/PathInputPanel.class"/>
+            <include name="**/PathSelectionPanel.class"/>
+            <include name="**/TargetPanelAutomationHelper.class"/>
+          </fileset>
+          <manifest>
+            <attribute name="Built-By" value="${user.name}" />
+            <attribute name="Specification-Title" value="Magellan IzPack Panels" />
+            <attribute name="Specification-Vendor" value="Thoralf Rickert"/>
+          </manifest>
+        </jar>
+
+        <copy file="${release}/MagellanPluginTargetPanel.jar" tofile="${magellan2}/installer/izpack/bin/panels/MagellanPluginTargetPanel.jar" overwrite="yes"/>
+
+        <jar jarfile="${magellan2}/installer/izpack/standalone-compiler.jar" update="true" duplicate="preserve">
+          <fileset dir="${magellan2}/installer/izpack">
+            <include name="bin/**/*.jar"/>
+          </fileset>
+        </jar>
+      
+        <antcall target="clear-classes" />
+    </target>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <target name="clear-classes">
+        <!-- cleaning classes directory by creating&deleting and creating it -->
+        <echo message="Cleaning output folder" />
+        <mkdir dir="${classes}" />
+        <delete includeEmptyDirs="true" failonerror="false">
+            <fileset dir="${classes}" includes="**" />
+        </delete>
+    </target>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <target name="clear-release">
+        <!-- cleaning release directory by creating&deleting and creating it -->
+        <echo message="Cleaning release folder" />
+        <mkdir dir="${release}" />
+        <delete includeEmptyDirs="true" failonerror="false">
+            <fileset dir="${release}" includes="**" />
+        </delete>
+        <mkdir dir="${release}" />
+    </target>
+
+</project>
