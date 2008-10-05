@@ -95,7 +95,7 @@ public class ConsoleMerger implements ReportMerger.Loader, ReportMerger.AssignDa
   public static void main(String[] args) {
     System.setErr(System.out);
     
-    System.out.println("ConsoleMerger V.1.0");
+    System.out.println("ConsoleMerger V.1.0.1");
     System.out.println("Author: Thoralf Rickert <thoralf@m84.de>");
     System.out.println("");
     
