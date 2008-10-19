@@ -65,6 +65,7 @@ public class ConsoleMerger implements ReportMerger.Loader, ReportMerger.AssignDa
       System.exit(2);
       return;
     }
+    System.out.println("Loaded succesfully with encoding: "+base.getEncoding());
     
     System.out.println("Merge Report: "+mergeReport);
     ReportMerger merger = new ReportMerger(base, mergeReport, this, this);
