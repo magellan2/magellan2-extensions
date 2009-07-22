@@ -81,7 +81,8 @@ public class ConsoleMerger implements ReportMerger.Loader, ReportMerger.AssignDa
       FileType type = FileTypeFactory.singleton().createFileType(resultReport, false);
       NullUserInterface ui = new NullUserInterface();
       CRWriter crw = new CRWriter(ui,type,merged.getEncoding());
-      crw.write(merged);
+      // crw.write(merged);
+      crw.writeAsynchronously(merged);
       crw.close();
     } catch (Exception exception) {
       exception.printStackTrace(System.out);
