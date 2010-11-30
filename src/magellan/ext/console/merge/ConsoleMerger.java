@@ -161,7 +161,7 @@ public class ConsoleMerger implements ReportMerger.Loader, ReportMerger.AssignDa
       System.exit(1);
     }
 
-    if (data != null && data.outOfMemory) {
+    if (data != null && data.isOutOfMemory()) {
       System.out.println("Running out of memory...take care!");
     }
 
