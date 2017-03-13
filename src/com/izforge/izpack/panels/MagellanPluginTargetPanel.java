@@ -2,8 +2,7 @@ package com.izforge.izpack.panels;
 
 import java.io.File;
 
-import net.n3.nanoxml.XMLElement;
-
+import com.izforge.izpack.adaptator.IXMLElement;
 import com.izforge.izpack.installer.InstallData;
 import com.izforge.izpack.installer.InstallerFrame;
 
@@ -105,7 +104,7 @@ public class MagellanPluginTargetPanel extends PathInputPanel
      * 
      * @param panelRoot The tree to put the data in.
      */
-    public void makeXMLData(XMLElement panelRoot)
+    public void makeXMLData(IXMLElement panelRoot)
     {
         new TargetPanelAutomationHelper().makeXMLData(idata, panelRoot);
     }
