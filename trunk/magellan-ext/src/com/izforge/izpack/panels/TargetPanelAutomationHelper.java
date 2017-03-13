@@ -21,8 +21,8 @@
 
 package com.izforge.izpack.panels;
 
-import net.n3.nanoxml.XMLElement;
-
+import com.izforge.izpack.adaptator.IXMLElement;
+import com.izforge.izpack.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.installer.AutomatedInstallData;
 import com.izforge.izpack.installer.PanelAutomation;
 
@@ -41,16 +41,16 @@ public class TargetPanelAutomationHelper implements PanelAutomation
      * @param idata The installation data.
      * @param panelRoot The tree to put the data in.
      */
-    public void makeXMLData(AutomatedInstallData idata, XMLElement panelRoot)
+    public void makeXMLData(AutomatedInstallData idata, IXMLElement panelRoot)
     {
         // Installation path markup
-        XMLElement ipath = new XMLElement("installpath");
+        IXMLElement ipath = new XMLElementImpl("installpath");
         // check this writes even if value is the default,
         // because without the constructor, default does not get set.
         ipath.setContent(idata.getInstallPath());
 
         // Checkings to fix bug #1864
-        XMLElement prev = panelRoot.getFirstChildNamed("installpath");
+        IXMLElement prev = panelRoot.getFirstChildNamed("installpath");
         if (prev != null) panelRoot.removeChild(prev);
 
         panelRoot.addChild(ipath);
@@ -64,11 +64,12 @@ public class TargetPanelAutomationHelper implements PanelAutomation
      * 
      * @return always true.
      */
-    public boolean runAutomated(AutomatedInstallData idata, XMLElement panelRoot)
+    public void runAutomated(AutomatedInstallData idata, IXMLElement panelRoot)
     {
         // We set the installation path
-        XMLElement ipath = panelRoot.getFirstChildNamed("installpath");
+        IXMLElement ipath = panelRoot.getFirstChildNamed("installpath");
         idata.setInstallPath(ipath.getContent());
-        return true;
     }
+
+
 }
